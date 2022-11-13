@@ -1,10 +1,12 @@
 package com.brvarona.superhero.controller.impl;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,6 +32,9 @@ public class SuperheroControllerImpl implements SuperheroController {
 
 	@Autowired
 	SuperheroService superheroService;
+	
+	@Autowired
+	CacheManager cacheManager;
 
 	@GetMapping
 	public ResponseEntity<List<Superhero>> getAllSuperheros(@RequestParam (value = "name", required = false) String name) {
@@ -63,7 +68,9 @@ public class SuperheroControllerImpl implements SuperheroController {
 
 	@DeleteMapping("/cache")
 	public ResponseEntity<?> cleanCache() {
-		//TODO: complete 
+		log.info("Cleaning a superhero cache");
+		Objects.requireNonNull(cacheManager.getCache("superheros")).clear();
+		Objects.requireNonNull(cacheManager.getCache("superhero")).clear();
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
