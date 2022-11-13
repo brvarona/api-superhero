@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.brvarona.superhero.advice.TrackExecutionTime;
 import com.brvarona.superhero.controller.SuperheroController;
 import com.brvarona.superhero.model.Superhero;
 import com.brvarona.superhero.payload.SuperheroRequest;
@@ -37,6 +38,7 @@ public class SuperheroControllerImpl implements SuperheroController {
 	CacheManager cacheManager;
 
 	@GetMapping
+	@TrackExecutionTime
 	public ResponseEntity<List<Superhero>> getAllSuperheros(@RequestParam (value = "name", required = false) String name) {
 		log.info("Getting all superheros by name: {}", name);
 		
@@ -44,6 +46,7 @@ public class SuperheroControllerImpl implements SuperheroController {
 	}
 
 	@GetMapping("/{id}")
+	@TrackExecutionTime
 	public ResponseEntity<Superhero> getSuperhero(@PathVariable(value = "id") Long id) {
 		log.info("Getting a superhero by id: {}", id);
 
@@ -51,6 +54,7 @@ public class SuperheroControllerImpl implements SuperheroController {
 	}
 
 	@PutMapping("/{id}")
+	@TrackExecutionTime
 	public ResponseEntity<Superhero> updateSuperhero(@PathVariable(value = "id") Long id,
 			@Valid @RequestBody SuperheroRequest superheroRequest) {
 		log.info("Updating a superhero by id: {}", id);
@@ -59,6 +63,7 @@ public class SuperheroControllerImpl implements SuperheroController {
 	}
 
 	@DeleteMapping("/{id}")
+	@TrackExecutionTime
 	public ResponseEntity<?> deleteSuperhero(@PathVariable(value = "id") Long id) {
 		log.info("Removing a superhero by id: {}", id);
 		superheroService.deleteSuperhero(id);
@@ -67,6 +72,7 @@ public class SuperheroControllerImpl implements SuperheroController {
 	}
 
 	@DeleteMapping("/cache")
+	@TrackExecutionTime
 	public ResponseEntity<?> cleanCache() {
 		log.info("Cleaning a superhero cache");
 		Objects.requireNonNull(cacheManager.getCache("superheros")).clear();
