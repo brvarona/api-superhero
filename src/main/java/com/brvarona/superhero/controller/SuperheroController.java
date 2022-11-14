@@ -12,7 +12,7 @@ import io.swagger.annotations.ApiOperation;
 public interface SuperheroController {
 
 	@ApiOperation(value = "Get all superheros", notes = "Returns a list with all the superheros")
-	ResponseEntity<List<Superhero>> getAllSuperheros(String filter);
+	ResponseEntity<List<Superhero>> getAllSuperheros(String name);
 
 	@ApiOperation(value = "Get a superhero by id", notes = "Returns a superhero by id")
 	ResponseEntity<Superhero> getSuperhero(Long id);
