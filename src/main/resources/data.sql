@@ -1,8 +1,8 @@
-INSERT INTO superheros (id, name, power) VALUES (1, 'Capitan America', 'strenght');
-INSERT INTO superheros (id, name, power) VALUES (2, 'Sue Storm', 'invisibility');
-INSERT INTO superheros (id, name, power) VALUES (3, 'Ant man', 'shrink');
-INSERT INTO superheros (id, name, power) VALUES (4, 'Flash', 'speed');
-INSERT INTO superheros (id, name, power) VALUES (5, 'Batman', 'intelligence');
-INSERT INTO superheros (id, name, power) VALUES (6, 'Superman', 'fly');
-INSERT INTO superheros (id, name, power) VALUES (7, 'Spiderman', 'clamber');
-INSERT INTO superheros (id, name, power) VALUES (8, 'Hulk', 'tolerance');
+INSERT INTO superheros (name, power) VALUES ('Capitan America', 'strenght');
+INSERT INTO superheros (name, power) VALUES ('Sue Storm', 'invisibility');
+INSERT INTO superheros (name, power) VALUES ('Ant man', 'shrink');
+INSERT INTO superheros (name, power) VALUES ('Flash', 'speed');
+INSERT INTO superheros (name, power) VALUES ('Batman', 'intelligence');
+INSERT INTO superheros (name, power) VALUES ('Superman', 'fly');
+INSERT INTO superheros (name, power) VALUES ('Spiderman', 'clamber');
+INSERT INTO superheros (name, power) VALUES ('Hulk', 'tolerance');
