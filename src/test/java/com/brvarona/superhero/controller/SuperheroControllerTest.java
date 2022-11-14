@@ -27,6 +27,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.brvarona.superhero.exception.ResourceNotFoundException;
@@ -133,6 +134,7 @@ class SuperheroControllerTest {
 		verifyNoMoreInteractions(superheroService);
 	}
 
+    @WithMockUser("spring")
 	@Test
 	void updateSuperheroTest_200_Ok() throws Exception {
 		SuperheroRequest superheroRequest = new SuperheroRequest("Superman", "fuerza");
@@ -150,7 +152,22 @@ class SuperheroControllerTest {
 		verify(superheroService, times(1)).updateSuperhero(anyLong(), any(SuperheroRequest.class));
 		verifyNoMoreInteractions(superheroService);
 	}
+    
+   	@Test
+   	void updateSuperheroTest_401_Unauthorized() throws Exception {
+   		SuperheroRequest superheroRequest = new SuperheroRequest("Superman", "fuerza");
 
+   		when(superheroService.updateSuperhero(anyLong(), any(SuperheroRequest.class))).thenReturn(superheros.get(0));
+
+   		mockMvc.perform(put("/api/v1/superheros/{id}", superheros.get(0).getId())
+   				.contentType(MediaType.APPLICATION_JSON)
+   				.content(new ObjectMapper().writeValueAsString(superheroRequest)))
+   				.andExpect(status().isUnauthorized());
+
+   		verifyNoMoreInteractions(superheroService);
+   	}
+
+    @WithMockUser("spring")
 	@Test
 	void updateSuperheroTest_404_NotFound() throws Exception {
 		SuperheroRequest superheroRequest = new SuperheroRequest("Superman", "fuerza");
@@ -166,6 +183,7 @@ class SuperheroControllerTest {
 		verifyNoMoreInteractions(superheroService);
 	}
 
+    @WithMockUser("spring")
 	@Test
 	void deleteSuperheroTest_200_Ok() throws Exception {
 
@@ -176,7 +194,18 @@ class SuperheroControllerTest {
 		verify(superheroService, times(1)).deleteSuperhero(anyLong());
 		verifyNoMoreInteractions(superheroService);
 	}
+    
+   	@Test
+   	void deleteSuperheroTest_401_Unauthorized() throws Exception {
 
+   		doNothing().when(superheroService).deleteSuperhero(anyLong());
+   		mockMvc.perform(delete("/api/v1/superheros/{id}", superheros.get(0).getId()))
+   				.andExpect(status().isUnauthorized());
+
+   		verifyNoMoreInteractions(superheroService);
+   	}
+
+    @WithMockUser("spring")
 	@Test
 	void deleteSuperheroTest_404_NotFound() throws Exception {
 
