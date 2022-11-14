@@ -38,7 +38,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class SuperheroControllerTest {
+class SuperheroControllerUnitTest {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -62,6 +62,7 @@ class SuperheroControllerTest {
 
 		superheros = List.of(hero1, hero2);
 	}
+
 
 	@Test
 	void getAllSuperherosTest_200_Ok() throws Exception {
@@ -137,7 +138,7 @@ class SuperheroControllerTest {
     @WithMockUser("spring")
 	@Test
 	void updateSuperheroTest_200_Ok() throws Exception {
-		SuperheroRequest superheroRequest = new SuperheroRequest("Superman", "fuerza");
+		SuperheroRequest superheroRequest = new SuperheroRequest("Superman", "fly");
 
 		when(superheroService.updateSuperhero(anyLong(), any(SuperheroRequest.class))).thenReturn(superheros.get(0));
 
@@ -155,7 +156,7 @@ class SuperheroControllerTest {
     
    	@Test
    	void updateSuperheroTest_401_Unauthorized() throws Exception {
-   		SuperheroRequest superheroRequest = new SuperheroRequest("Superman", "fuerza");
+   		SuperheroRequest superheroRequest = new SuperheroRequest("Superman", "fly");
 
    		when(superheroService.updateSuperhero(anyLong(), any(SuperheroRequest.class))).thenReturn(superheros.get(0));
 
@@ -170,7 +171,7 @@ class SuperheroControllerTest {
     @WithMockUser("spring")
 	@Test
 	void updateSuperheroTest_404_NotFound() throws Exception {
-		SuperheroRequest superheroRequest = new SuperheroRequest("Superman", "fuerza");
+		SuperheroRequest superheroRequest = new SuperheroRequest("Superman", "fly");
 
 		doThrow(ResourceNotFoundException.class).when(superheroService).updateSuperhero(anyLong(),
 				any(SuperheroRequest.class));
